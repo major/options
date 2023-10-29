@@ -1,0 +1,67 @@
+name: Update Strangles
+
+on:
+  schedule:
+    - cron: "0 14-20 * * 1,2,3,4,5"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  update_strangles:
+    name: "Update strangles"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+          cache: poetry
+
+      - name: Cache playwright browsers
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright
+
+      - name: Install dependencies
+        run: poetry install --only main
+
+      - name: Install playwright browsers
+        run: poetry run playwright install
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
+      - name: Get the latest strangles
+        run: poetry run update_strangles
+        env:
+          PYTHONUNBUFFERED: 1
+          BC_USERNAME: ${{ secrets.BC_USERNAME }}
+          BC_PASSWORD: ${{ secrets.BC_PASSWORD }}
+          SCANNER_ID: ${{ secrets.STRANGLES_SCANNER_ID }}
+
+      - name: Commit and push if it changed
+        run: |-
+          git config user.name "Major Hayden"
+          git config user.email "major@mhtx.net"
+          git add *.csv
+          timestamp=$(date -u)
+          git commit -m "Updating strangles list: ${timestamp}" || exit 0
+          # Sometimes there are leftover .pyc files.
+          git clean -fxd
+          git status
+          git pull --rebase
+          git push
