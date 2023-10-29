@@ -16,10 +16,10 @@ def run(playwright: Playwright) -> None:
     )
     page = context.new_page()
     page.goto("https://www.barchart.com/login")
-    page.get_by_placeholder("Login with email").click()
-    page.get_by_placeholder("Login with email").fill(USERNAME)
-    page.get_by_placeholder("Login with email").press("Tab")
-    page.get_by_placeholder("Password").fill(PASSWORD)
+    page.get_by_label("Login with email").click()
+    page.get_by_label("Login with email").fill(USERNAME)
+    page.get_by_label("Password").click()
+    page.get_by_label("Password").fill(PASSWORD)
     page.get_by_role("button", name="Log In").click()
 
     page.goto(
