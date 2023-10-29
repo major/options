@@ -10,7 +10,7 @@ SCREENER_ID = os.environ.get("BC_SCREENER_ID")
 
 def run(playwright: Playwright) -> None:
     """Get a list of short strangles from barchart."""
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=True)
     context = browser.new_context(
         timezone_id="America/Chicago", viewport={"width": 1980, "height": 1020}
     )
