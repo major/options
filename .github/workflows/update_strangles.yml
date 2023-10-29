@@ -42,7 +42,7 @@ jobs:
         run: poetry install --only main
 
       - name: Install playwright browsers
-        run: poetry run playwright install
+        run: poetry run playwright install firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - name: Get the latest strangles

@@ -10,12 +10,13 @@ SCREENER_ID = os.environ.get("BC_SCREENER_ID")
 
 def run(playwright: Playwright) -> None:
     """Get a list of short strangles from barchart."""
-    browser = playwright.chromium.launch(headless=True)
+    browser = playwright.firefox.launch(headless=True)
     context = browser.new_context(
         timezone_id="America/Chicago", viewport={"width": 1980, "height": 1020}
     )
     page = context.new_page()
     page.goto("https://www.barchart.com/login")
+    print(page.content())
     page.get_by_label("Login with email").click()
     page.get_by_label("Login with email").fill(USERNAME)
     page.get_by_label("Password").click()
