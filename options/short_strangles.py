@@ -8,7 +8,7 @@ PASSWORD = os.environ.get("BC_PASSWORD")
 SCREENER_ID = os.environ.get("BC_SCREENER_ID")
 
 
-def run()
+def run():
     """Get a list of short strangles from barchart."""
     with sync_playwright() as playwright:
         browser = playwright.firefox.launch(headless=True)
