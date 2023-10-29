@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+from time import sleep
 
 from playwright.sync_api import Playwright, sync_playwright
 
@@ -31,6 +32,7 @@ def run():
             "https://www.barchart.com/options/short-strangle?"
             f"orderBy=percentOfStock&orderDir=desc&viewName=main&screener={SCREENER_ID}"
         )
+        sleep(5)
         with page.expect_download() as download_info:
             page.get_by_title("Download page to .csv file").click()
         download = download_info.value
