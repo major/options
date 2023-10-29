@@ -5,7 +5,7 @@ from playwright.sync_api import Playwright, sync_playwright
 
 USERNAME = os.environ.get("BC_USERNAME")
 PASSWORD = os.environ.get("BC_PASSWORD")
-SCREENER_ID = os.environ.get("BC_SCREENER_ID")
+SCREENER_ID = os.environ.get("SCREENER_ID")
 
 
 def run():

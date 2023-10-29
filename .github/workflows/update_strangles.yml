@@ -51,7 +51,7 @@ jobs:
           PYTHONUNBUFFERED: 1
           BC_USERNAME: ${{ secrets.BC_USERNAME }}
           BC_PASSWORD: ${{ secrets.BC_PASSWORD }}
-          SCANNER_ID: ${{ secrets.STRANGLES_SCANNER_ID }}
+          SCREENER_ID: ${{ secrets.STRANGLES_SCREENER_ID }}
 
       - name: Commit and push if it changed
         run: |-
